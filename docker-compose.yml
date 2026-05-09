@@ -8,7 +8,7 @@ services:
       POSTGRES_PASSWORD: acbr_password
       POSTGRES_DB: acbr_nfe
     ports:
-      - "5432:5432"
+      - '5433:5432'
     volumes:
       - postgres_data:/var/lib/postgresql/data
     restart: unless-stopped
@@ -16,13 +16,13 @@ services:
   redis:
     image: redis:7-alpine
     ports:
-      - "6379:6379"
+      - '6380:6379'
     restart: unless-stopped
 
   api:
     build: .
     ports:
-      - "8000:8000"
+      - '8001:8000'
     env_file:
       - .env
     volumes:
