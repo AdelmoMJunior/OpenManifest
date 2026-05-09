@@ -33,7 +33,7 @@ services:
       - db
       - redis
     restart: unless-stopped
-    command: sh -c "xvfb-run -a python3 -m uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload"
+    command: sh -c "xvfb-run -a python3 -m uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload --reload-dir /app"
 
 volumes:
   postgres_data:
