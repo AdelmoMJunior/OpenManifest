@@ -62,4 +62,10 @@ COPY requirements.txt .
 # Instalar pacotes Python
 RUN pip3 install -r requirements.txt --break-system-packages
 
-# O restante do codigo sera mapeado via volume no docker-compose
+# Copiar o restante do codigo para a imagem (Fallback caso o volume falhe)
+COPY . .
+
+# Criar pastas necessarias
+RUN mkdir -p inis logs certs
+
+# O restante do codigo podera ser sobrescrito via volume no docker-compose para desenvolvimento
