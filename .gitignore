@@ -1,0 +1,49 @@
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Logs and databases
+logs/
+*.log
+*.sqlite
+*.db
+*.sqlite3
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+
+# Certificates and uploaded files
+certs/
+inis/
+*.pfx
+*.p12
+*.pem
+
+# ACBr Temp XMLs
+*-soap.xml
+*.xml
+
+# Editor/IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Docker
+docker-compose.override.yml
+
+# Frontend
+front_end/node_modules/
+front_end/.next/
+front_end/.env*.local
+front_end/.vercel/
+front_end/.snowflake/
+front_end/.v0-trash/
