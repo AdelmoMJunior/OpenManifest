@@ -28,6 +28,12 @@ services:
       - '8001:8000'
     labels:
       - "coolify.portMapping=8000"
+      - "traefik.enable=true"
+      - "traefik.http.routers.api.rule=Host(`acbr.kaisoft.com.br`)"
+      - "traefik.http.services.api.loadbalancer.server.port=8000"
+      - "traefik.http.routers.api.entrypoints=websecure"
+      - "traefik.http.routers.api.tls=true"
+      - "traefik.http.routers.api.tls.certresolver=letsencrypt"
     env_file:
       - .env
 #    volumes:
