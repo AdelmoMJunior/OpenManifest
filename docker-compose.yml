@@ -21,6 +21,8 @@ services:
 
   api:
     build: .
+    environment:
+      - PYTHONPATH=/app
     ports:
       - '8001:8000'
     env_file:
@@ -31,7 +33,7 @@ services:
       - db
       - redis
     restart: unless-stopped
-    command: sh -c "xvfb-run -a uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload"
+    command: sh -c "xvfb-run -a python3 -m uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload"
 
 volumes:
   postgres_data:
