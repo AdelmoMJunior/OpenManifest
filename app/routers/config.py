@@ -30,7 +30,7 @@ async def configurar_tenant(
 
     # Ler e validar certificado
     pfx_data = await certificado.read()
-    valido, msg, data_vencimento = validar_certificado(pfx_data, senha_certificado)
+    valido, msg, data_vencimento = validar_certificado(pfx_data, senha_certificado, cnpj_esperado=cnpj_limpo)
     if not valido:
         raise HTTPException(status_code=400, detail=msg)
 
