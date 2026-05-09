@@ -36,7 +36,7 @@ Com foco em simplicidade e segurança, o projeto permite que empresas visualizem
 
 1. **Clonar o Repositório**
    ```bash
-   git clone https://github.com/seu-usuario/openmanifest.git
+   git clone https://github.com/AdelmoMJunior/OpenManifest.git
    cd openmanifest
    ```
 
