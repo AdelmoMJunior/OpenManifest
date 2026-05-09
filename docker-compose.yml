@@ -35,7 +35,7 @@ services:
       - db
       - redis
     restart: unless-stopped
-    command: sh -c "echo '🚀 Iniciando OpenManifest API...' && xvfb-run -a python3 -m uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload --app-dir /app"
+    command: sh -c "echo '🚀 Iniciando OpenManifest API via Script...' && xvfb-run -a python3 app/main.py"
 
 volumes:
   postgres_data:
