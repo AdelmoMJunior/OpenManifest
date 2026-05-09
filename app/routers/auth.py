@@ -94,20 +94,32 @@ class VerifyToken(BaseModel):
 
 @router.post("/register")
 def register_user(user: UserCreate, db: Session = Depends(get_db)):
-    db_user = db.query(User).filter(User.email == user.email).first()
-    if db_user:
-        # Retorno generico para nao informar se e-mail existe
-        return {"message": "Cadastro recebido. Verifique seu e-mail para ativar a conta."}
+    # 1. Verifica se o e-mail já está em uso
+    email_lower = user.email.lower()
+    if db.query(User).filter(User.email == email_lower).first():
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Este e-mail já está cadastrado no sistema."
+        )
         
+    # 2. Verifica se já existe um usuário para este CNPJ (Trava 1 Usuário por Empresa)
+    if db.query(User).filter(User.tenant_cnpj == user.tenant_cnpj).first():
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Já existe uma conta vinculada a este CNPJ."
+        )
+
+    # 3. Gerencia o Tenant
     tenant = db.query(Tenant).filter(Tenant.cnpj == user.tenant_cnpj).first()
     if not tenant:
-        # Cria o Tenant vazio — o certificado será enviado depois no Onboarding
+        # Se não existe o tenant, cria
         tenant = Tenant(cnpj=user.tenant_cnpj)
         db.add(tenant)
         db.commit()
         
+    # 4. Cria o novo usuário
     new_user = User(
-        email=user.email,
+        email=email_lower,
         password_hash=get_password_hash(user.password),
         tenant_cnpj=tenant.cnpj,
         is_verified=False
@@ -116,11 +128,11 @@ def register_user(user: UserCreate, db: Session = Depends(get_db)):
     db.commit()
     db.refresh(new_user)
     
-    # Gera token e envia e-mail
+    # 5. Gera token e envia e-mail
     token = create_email_verification_token(new_user.id)
     email_service.send_verification_email(new_user.email, token)
     
-    return {"message": "Cadastro recebido. Verifique seu e-mail para ativar a conta."}
+    return {"message": "Cadastro realizado! Verifique seu e-mail para ativar a conta."}
 
 @router.post("/login")
 def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):

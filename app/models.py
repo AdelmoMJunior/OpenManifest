@@ -9,7 +9,7 @@ class User(Base):
     email = Column(String(100), unique=True, index=True)
     password_hash = Column(String(255))
     is_verified = Column(Boolean, default=False)
-    tenant_cnpj = Column(String(14), ForeignKey("tenants.cnpj"))
+    tenant_cnpj = Column(String(14), ForeignKey("tenants.cnpj"), unique=True)
     
     tenant = relationship("Tenant", back_populates="users")
     sessions = relationship("Session", back_populates="user")
