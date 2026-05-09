@@ -28,14 +28,14 @@ services:
       - '8001:8000'
     env_file:
       - .env
-    volumes:
-      - .:/app
+#    volumes:
+#      - .:/app
     working_dir: /app
     depends_on:
       - db
       - redis
     restart: unless-stopped
-    command: sh -c "echo '📂 Estrutura de pastas no Docker:' && ls -R /app && echo '🚀 Iniciando OpenManifest API...' && xvfb-run -a python3 app/main.py"
+    command: sh -c "echo '🚀 Iniciando OpenManifest API...' && xvfb-run -a python3 app/main.py"
 
 volumes:
   postgres_data:
